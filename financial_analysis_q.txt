@@ -1,0 +1,101 @@
+Step 1: ETL Tasks (Power Query)
+
+
+
+1. Remove Unnecessary Columns
+
+ Which columns are not useful for analysis? Remove them using Power Query.
+
+2. Data Type Correction
+
+Ensure numeric and date columns have the correct data types.
+
+3. Filter Data
+
+Keep only the data for years after 2014.
+
+Create a New Column
+
+Add a column for Profit = Revenue - Expenses (if applicable).
+
+Rename Columns
+
+Rename any cryptic column names to something more user-friendly.
+
+ Step 2: Data Modeling Tasks
+Assume you’ll extend this into a star schema later.
+
+Identify Fact and Dimension Columns
+
+Classify the columns into Fact Table (e.g., Revenue, Profit) and Dimensions (e.g., Country, Segment).
+
+Create Date Table
+
+Use DAX to create a calendar table and relate it with the main data table.
+
+Create Relationships
+
+If additional tables are added (e.g., Products, Regions), establish relationships using proper keys.
+
+Step 3: Visualization Questions
+These involve interpreting data through visuals in Power BI.
+
+Bar Chart
+
+Show Total Revenue by Country.
+
+Line Chart
+
+Plot Revenue Trend Over Time.
+
+Stacked Column Chart
+
+Revenue by Product and Year.
+
+Tree Map
+
+Visualize Profit by Segment.
+
+Slicer Filters
+
+Add slicers for Year and Region.
+
+Step 4: Simple to Intermediate DAX Queries
+Basic Measure
+
+Total Revenue = SUM(Financials[Revenue])
+Profit Margin
+
+
+Profit Margin = DIVIDE(SUM(Financials[Profit]), SUM(Financials[Revenue]))
+Year-on-Year Growth
+
+
+YoY Revenue Growth = 
+VAR CurrentRevenue = SUM(Financials[Revenue])
+VAR LastYearRevenue = CALCULATE(SUM(Financials[Revenue]), SAMEPERIODLASTYEAR('Date'[Date]))
+RETURN DIVIDE(CurrentRevenue - LastYearRevenue, LastYearRevenue)
+Top 5 Countries by Profit
+
+Use TOPN DAX + visualization.
+
+Running Total of Revenue
+
+Running Total Revenue = 
+CALCULATE(
+    SUM(Financials[Revenue]),
+    FILTER(
+        ALLSELECTED('Date'),
+        'Date'[Date] <= MAX('Date'[Date])
+    )
+)
+
+
+Bonus Scenario Task
+Business Question:
+Which customer segment and country combinations are generating the highest revenue growth year over year
+
+Create a matrix table with rows as Segments, columns as Countries, and values as YoY Revenue Growth.
+
+Highlight top performers using conditional formatting.
+
